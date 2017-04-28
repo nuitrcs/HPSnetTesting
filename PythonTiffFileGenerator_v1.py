@@ -6,10 +6,11 @@ import datetime
 from time import sleep
 import shutil
 
-dir= '\\Users\AaronMatthews\Documents\Scripts\PythonTiffGenerator' 
+dir= os.path.dirname(os.path.abspath(__file__))
+print (dir)
 StartDirStats=os.stat(dir)
-src= '\\Users\AaronMatthews\Documents\Scripts\PythonTiffGenerator\ExampleImage.tif' 
-dest= '\\Users\AaronMatthews\Documents\Scripts\PythonTiffGenerator\ExampleImage2.tif' 
+src= dir + '/ExampleImage.tif' 
+dest= dir + '/ExampleImage2.tif' 
 input_name= 'ExampleImage.tif'
 time =  str(datetime.datetime.now())
 Hour,Min,Sec = os.path.basename(time).split(':')

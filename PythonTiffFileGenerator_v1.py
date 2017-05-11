@@ -5,66 +5,84 @@ import os
 import datetime
 from time import sleep
 import shutil
+dir = os.path.dirname(os.path.abspath(__file__))
 
-dir= os.path.dirname(os.path.abspath(__file__))
-print (dir)
-StartDirStats=os.stat(dir)
-src= dir + '/ExampleImage.tif' 
-dest= dir + '/ExampleImage2.tif' 
-input_name= 'ExampleImage.tif'
-time =  str(datetime.datetime.now())
-Hour,Min,Sec = os.path.basename(time).split(':')
-print (time)
+def mockMicroscope():
+    startDirSize= dirSize(dir)
 
-print ("File Replication Step")
-time =  str(datetime.datetime.now())
-starttime =  (datetime.datetime.now())
-Hour,Min,Sec = os.path.basename(time).split(':')
-print (time)
-for step in range(1,10):
-  sleep(0.0001)
-  time =  str(datetime.datetime.now())
-  T = str(step)
-  Hour,Min,Sec = os.path.basename(time).split(':')
-  dirname='\\Users\\AaronMatthews\\Documents\\Scripts\\PythonTiffGenerator\\'+ T +'folder\\'
-  try:
-    os.stat(dirname)
-  except:
-    os.mkdir(dirname) 
-  os.chdir(dirname)
+    src= dir + '/ExampleImage.tif' 
+    dest= dir + '/ExampleImage2.tif' 
 
+    input_name= 'ExampleImage.tif'
+    time =  str(datetime.datetime.now())
+    Hour,Min,Sec = os.path.basename(time).split(':')
+    print (time)
 
+    print ("File Replication Step")
+    time =  str(datetime.datetime.now())
+    starttime =  (datetime.datetime.now())
+    Hour,Min,Sec = os.path.basename(time).split(':')
+    print (time)
+    for step in range(1,10):
+      sleep(0.0001)
+      time =  str(datetime.datetime.now())
+      T = str(step)
+      Hour,Min,Sec = os.path.basename(time).split(':')
+      dirname= dir +'/' + T +'folder/'
+      try:
+        os.stat(dirname)
+      except:
+        os.mkdir(dirname) 
+      os.chdir(dirname)
 
-  for x in range(1,100):
-   time =  str(datetime.datetime.now())
-   X = str(x)
-   Hour,Min,Sec = os.path.basename(time).split(':')
-   # outputname = dir+\+ X +'folder'
-   # shutil.copyfile(src, outputname)
-   # print (outputname)
-   # print ("Hello fellow Python classmates!")
-   dest=dirname+Sec+'Image.tif'
-   #print (src)
-   #print (dest)
-   shutil.copyfile(src,dest)
-time =  str(datetime.datetime.now())
-Hour,Min,Sec = os.path.basename(time).split(':')
-print (time)
-finishtime =  (datetime.datetime.now())
-timespent= str(finishtime-starttime)
-print ("Replication Finished in" , timespent , 'sec' )
+      for x in range(1,100):
+       time =  str(datetime.datetime.now())
+       X = str(x)
+       Hour,Min,Sec = os.path.basename(time).split(':')
+       # outputname = dir+\+ X +'folder'
+       # shutil.copyfile(src, outputname)
+       # print (outputname)
+       # print ("Hello fellow Python classmates!")
+       dest=dirname+Sec+'Image.tif'
+       #print (src)
+       #print (dest)
+       shutil.copyfile(src,dest)
+    time =  str(datetime.datetime.now())
+    Hour,Min,Sec = os.path.basename(time).split(':')
+    print (time)
+    finishtime =  (datetime.datetime.now())
+    timespent= str(finishtime-starttime)
+    print ("Replication Finished in" , timespent , 'sec' )
 
-FinalDirStats=os.stat(dir)
+    #FinalDirStats=os.stat(dir)
 
-FileSize= FinalDirStats.st_size - StartDirStats.st_size 
-print (FinalDirStats)
-print (StartDirStats)
-print (FileSize)
+    #FileSize= FinalDirStats.st_size - StartDirStats.st_size 
+    #print (FinalDirStats)
+    #print (StartDirStats)
+    return dirSize(dir) - startDirSize  #finish - start
 
+    print ('This is the end')
 
-print ('This is the end')
+def dirSize(start_path):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            total_size += os.path.getsize(fp)
+    return total_size
 
-
+def main():
+    fname = dir + "/init.txt"
+    if not os.path.isfile(fname):
+        fSize = mockMicroscope()
+        target = open(fname, 'w')
+        target.write(str(fSize))
+    else:
+      target = open(fname, 'r')
+      fSize = int(target.readline())
+    print fSize
+if __name__ == "__main__":
+    main()
 """
 # To do
 
